@@ -8,18 +8,19 @@ import { findDescribedNode, browserName } from './helpers.js';
 describe(`TestingA11y: ${browserName()}`, () => {
   it('passes the aXe-core audit', async () => {
     const el = await fixture<TestingA11y>(Default(Default.args));
-
+    
     await expect(el).to.be.accessible();
+    await expect(el).shadowDom.to.be.accessible();
   });
 
   it('focuses the input on label clicks', async () => {
     const el = await fixture<TestingA11y>(Default(Default.args));
-    const label = el.querySelector('label') as HTMLLabelElement;
-    const input = el.querySelector('input') as HTMLInputElement;
+    const label = el.querySelector('[slot="label"]') as HTMLLabelElement;
 
     label.click();
 
-    expect(document.activeElement === input, `activeElement: ${document.activeElement}`).to.be.true;
+    expect(document.activeElement === el, `activeElement: ${document.activeElement}`).to.be.true;
+    expect(el.shadowRoot.activeElement === el.input, `activeElement: ${document.activeElement}`).to.be.true;
   });
 
   it(`is labelled "${Default.args.label}" and described as "${Default.args.description}"`, async () => {
@@ -41,7 +42,6 @@ describe(`TestingA11y: ${browserName()}`, () => {
 
   it('is part of the tab order', async () => {
     const el = await fixture<TestingA11y>(Default(Default.args));
-    const input = el.querySelector('input') as HTMLInputElement;
     const beforeInput = document.createElement('input');
     const afterInput = document.createElement('input');
     el.insertAdjacentElement('beforebegin', beforeInput);
@@ -51,7 +51,8 @@ describe(`TestingA11y: ${browserName()}`, () => {
     await sendKeys({
       press: 'Tab',
     });
-    expect(document.activeElement === input, `activeElement: ${document.activeElement}`).to.be.true;
+    expect(document.activeElement === el, `activeElement: ${document.activeElement}`).to.be.true;
+    expect(el.shadowRoot.activeElement === el.input, `activeElement: ${document.activeElement}`).to.be.true;
     await sendKeys({
       press: 'Tab',
     });
@@ -59,7 +60,8 @@ describe(`TestingA11y: ${browserName()}`, () => {
     await sendKeys({
       press: 'Shift+Tab',
     });
-    expect(document.activeElement === input, `activeElement: ${document.activeElement}`).to.be.true;
+    expect(document.activeElement === el, `activeElement: ${document.activeElement}`).to.be.true;
+    expect(el.shadowRoot.activeElement === el.input, `activeElement: ${document.activeElement}`).to.be.true;
     await sendKeys({
       press: 'Shift+Tab',
     });

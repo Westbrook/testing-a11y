@@ -24,9 +24,8 @@ interface ArgTypes {
 
 const Template: Story<ArgTypes> = ({ label, description } = {}) => html`
   <testing-a11y>
-    <label for="input">${label}</label>
-    <input id="input" aria-describedby="description" />
-    <div id="description">${description}</div>
+    <div slot="label">${label}</div>
+    <div slot="description">${description}</div>
   </testing-a11y>
 `;
 
