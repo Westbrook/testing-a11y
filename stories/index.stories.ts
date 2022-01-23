@@ -23,11 +23,11 @@ interface ArgTypes {
 }
 
 const Template: Story<ArgTypes> = ({ label, description } = {}) => html`
-  <div>
+  <testing-a11y>
     <label for="input">${label}</label>
     <input id="input" aria-describedby="description" />
     <div id="description">${description}</div>
-  </div>
+  </testing-a11y>
 `;
 
 export const Default = (args: ArgTypes) => Template(args);
