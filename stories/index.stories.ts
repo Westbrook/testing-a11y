@@ -18,43 +18,20 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-  title?: string;
-  counter?: number;
-  textColor?: string;
-  slot?: TemplateResult;
+  label?: string;
+  description?: string;
 }
 
-const Template: Story<ArgTypes> = ({
-  title = 'Hello world',
-  counter = 5,
-  textColor,
-  slot,
-}: ArgTypes) => html`
-  <testing-a11y
-    style="--testing-a11y-text-color: ${textColor || 'black'}"
-    .title=${title}
-    .counter=${counter}
-  >
-    ${slot}
-  </testing-a11y>
+const Template: Story<ArgTypes> = ({ label, description } = {}) => html`
+  <div>
+    <label for="input">${label}</label>
+    <input id="input" aria-describedby="description" />
+    <div id="description">${description}</div>
+  </div>
 `;
 
-export const Regular = Template.bind({});
-
-export const CustomTitle = Template.bind({});
-CustomTitle.args = {
-  title: 'My title',
-};
-
-export const CustomCounter = Template.bind({});
-CustomCounter.args = {
-  counter: 123456,
-};
-
-export const SlottedContent = Template.bind({});
-SlottedContent.args = {
-  slot: html`<p>Slotted content</p>`,
-};
-SlottedContent.argTypes = {
-  slot: { table: { disable: true } },
-};
+export const Default = (args: ArgTypes) => Template(args);
+Default.args = {
+  label: 'Name',
+  description: 'Please supply a name or combination of names by which you would like to be referred.',
+}
