@@ -4,10 +4,9 @@ import '../src/testing-a11y.js';
 export default {
   title: 'TestingA11y',
   component: 'testing-a11y',
-  argTypes: {
-    title: { control: 'text' },
-    counter: { control: 'number' },
-    textColor: { control: 'color' },
+  args: {
+    label: 'Default label',
+    description: 'Default description'
   },
 };
 
@@ -18,16 +17,15 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-  label?: string;
-  description?: string;
+  label: string;
+  description: string;
 }
 
-const Template: Story<ArgTypes> = ({ label, description } = {}) => html`
-  <testing-a11y>
-    <label for="input">${label}</label>
-    <input id="input" aria-describedby="description" />
-    <div id="description">${description}</div>
-  </testing-a11y>
+const Template: Story<ArgTypes> = ({ label, description }) => html`
+  <testing-a11y
+    label=${label}
+    description=${description}
+  ></testing-a11y>
 `;
 
 export const Default = (args: ArgTypes) => Template(args);
