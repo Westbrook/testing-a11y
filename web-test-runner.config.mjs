@@ -56,5 +56,5 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
   ],
 
   // See documentation for all available options
-  reporters: [summaryReporter()],
+  // reporters: [summaryReporter()],
 });
